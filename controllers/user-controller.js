@@ -1,3 +1,4 @@
+//  IMPORTING USER AND THOUGHT MODELS
 const { User, Thought } = require("../models");
 
 // CREATING A ERROR MESSAGE FUNCTION IN ORDER TO FOLLOW 'DRY' CODING PRINCIPLE
@@ -5,14 +6,15 @@ const errorMessage = function () {
   this.res.status(404).json({ message: "There is no user with that ID" });
 };
 
-// CONTROLLER FUNCTIONS ESSENTIALLY WILL BE THE SAME WITH MINOR CHANGES DEPENDING ON THE ROUTE
+// USER CONTROLLER OBJECT
+// CONTROLLER FUNCTIONS ESSENTIALLY WILL BE THE SAME WITH MINOR CHANGES DEPENDING ON THE OPERATION
 const userController = {
   // RETRIEVING ALL USERS
   async getAllUsers(req, res) {
     // WILL BE USING TRY CATCH BLOCKS TO HANDLE ERRORS
     try {
       const userData = await User.find().select("-__v");
-      res.json(userData);
+      res.json(userData); // SENDING THE JSON RESPONSE
     } catch (err) {
       console.error(err);
       res.status(500).json(err);
@@ -22,8 +24,8 @@ const userController = {
   // RETRIEVING A SINGLE USER BY ID
   async getSingleUser(req, res) {
     try {
-      const userData = await User.findOne({ _id: req.params.userId })
-        .select("-__v")
+      const userData = await User.findOne({ _id: req.params.userId }) //USER.FINDONE USED TO FIND THE SPECIFIC ID
+        .select("-__v") // MONGOOSE FEATURE TO REMOVE THE __V (VERSION TRACKING) PROPERTY
         .populate("thoughts")
         .populate("friends");
 
@@ -56,6 +58,7 @@ const userController = {
         { _id: req.params.userId },
         { $set: req.body },
         { runValidators: true, new: true }
+        // RUNVALIDATORS: MAKES SURE THE UPDATED DOCUMENT IS VALIDATED AGAINST THE SCHEMA
       );
       if (!userData) {
         errorMessage();
@@ -107,7 +110,7 @@ const userController = {
       const userData = await User.findOneAndUpdate(
         { _id: req.params.userId },
         { $pull: { friends: req.params.friendId } },
-        { new: true }
+        { runValidators: true, new: true }
       );
       if (!userData) {
         errorMessage();
