@@ -4,5 +4,5 @@
 // IMPORTING USER AND THOUGHT MODELS
 const User = require("./User");
 const Thought = require("./Thought");
-
+// REACTION MODEL IS SCHEMA ONLY
 module.exports = { User, Thought };
