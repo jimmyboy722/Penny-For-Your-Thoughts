@@ -2,8 +2,8 @@
 const router = require("express").Router();
 
 // IMPORTING USER AND THOUGHT ROUTES
-const userRoutes = require("./user-routes");
-const thoughtRoutes = require("./thought-routes");
+const userRoutes = require("../api/users-routes");
+const thoughtRoutes = require("../api/thoughts-routes");
 
 // MOUNTING USERS AND THOUGHTS ROUTES
 router.use("/users", userRoutes);

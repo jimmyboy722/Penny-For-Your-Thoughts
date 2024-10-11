@@ -19,11 +19,7 @@ app.use(routes);
 // SETTING UP THE EVENT LISTENER FOR WHEN THE MONGODB CONNECTION IS ESTABLISHED
 db.once("open", () => {
   // STARTING THE SERVER
-  app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
+  app.listen(PORT, () => {
+    console.log(`App listening at http://localhost:${PORT}`);
   });
-})
-  // ERROR HANDLING
-  .catch((err) => {
-    console.error(`MongoDB connection error`, err.message);
-  });
+});
